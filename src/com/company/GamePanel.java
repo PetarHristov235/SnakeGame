@@ -10,8 +10,8 @@ public class GamePanel extends JPanel implements ActionListener {
     static final int UNIT_SIZE = 25;
     static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / UNIT_SIZE;
     static final int DELAY = 75;
-     int x[] = new int[GAME_UNITS];
-     int y[] = new int[GAME_UNITS];
+     int[] x = new int[GAME_UNITS];
+     int[] y = new int[GAME_UNITS];
     int bodyParts = 6;
     int applesEaten;
     int appleX;
@@ -47,10 +47,6 @@ public class GamePanel extends JPanel implements ActionListener {
     public void draw(Graphics g) {
 //        System.out.println(running);
         if (running) {
-//            for (int i = 0; i < SCREEN_HEIGHT / UNIT_SIZE; i++) {
-//                g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, SCREEN_HEIGHT);
-//                g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
-//            }
             g.setColor(new Color(67, 32, 145, 255));
             g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
             for (int i = 0; i < bodyParts; i++) {
@@ -72,8 +68,8 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void newApple() {
-        appleX = random.nextInt((int) (SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
-        appleY = random.nextInt((int) (SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+        appleX = random.nextInt(SCREEN_WIDTH / UNIT_SIZE) * UNIT_SIZE;
+        appleY = random.nextInt( SCREEN_HEIGHT / UNIT_SIZE) * UNIT_SIZE;
     }
 
     public void move() {
@@ -82,24 +78,14 @@ public class GamePanel extends JPanel implements ActionListener {
             y[i] = y[i - 1];
         }
         switch (direction) {
-            case 'U':
-                y[0] = y[0] - UNIT_SIZE;
-                break;
-            case 'D':
-                y[0] = y[0] + UNIT_SIZE;
-                break;
-            case 'L':
-                x[0] = x[0] - UNIT_SIZE;
-                break;
-            case 'R':
-                x[0] = x[0] + UNIT_SIZE;
-                break;
+            case 'U' -> y[0] = y[0] - UNIT_SIZE;
+            case 'D' -> y[0] = y[0] + UNIT_SIZE;
+            case 'L' -> x[0] = x[0] - UNIT_SIZE;
+            case 'R' -> x[0] = x[0] + UNIT_SIZE;
         }
     }
 
     public void checkApple() {
-  //      System.out.println("apple x =" + appleX);
-      //  System.out.println("x: " + x[0]);
         if ((x[0] == appleX) && (y[0] == appleY)) {
             bodyParts++;
             applesEaten++;
@@ -112,30 +98,31 @@ public class GamePanel extends JPanel implements ActionListener {
         for (int i = bodyParts; i > 0; i--) {
             if ((x[0] == x[i]) && (y[0] == y[i])) {
                 running = false;
-         //       System.out.println("1");
+       //         System.out.println("1");
             }
         }
         //check if head touches left border
         if (x[0] < 0) {
             running = false;
-     //
-            //       System.out.println("2");
+
+     //              System.out.println("2");
         }
         //check if head touches right border
         if (x[0] > SCREEN_WIDTH) {
             running = false;
-//            System.out.println("3");
+            //System.out.println("3");
         }
 
         //check if head touches top border
         if (y[0] < 0) {
             running = false;
-//            System.out.println("4");
+           // System.out.println("4");
         }
 
         //check if head touches bottom border
-        if (y[0] > SCREEN_HEIGHT) {
+        if (y[0] >= SCREEN_HEIGHT) {
             running = false;
+         //   System.out.println("5");
         }
         if (!running) {
             timer.stop();
@@ -147,7 +134,7 @@ public class GamePanel extends JPanel implements ActionListener {
         //score
         g.setColor(new Color(114, 93, 159, 255));
         g.setFont(new Font("Ink Free", Font.BOLD, 75));
-        FontMetrics metrics = getFontMetrics(g.getFont());
+            FontMetrics metrics = getFontMetrics(g.getFont());
         g.drawString("Score: " + applesEaten, (SCREEN_WIDTH - metrics.stringWidth("Score: " + applesEaten)) / 2, g.getFont().getSize());
 
 
@@ -220,4 +207,3 @@ public class GamePanel extends JPanel implements ActionListener {
 
 
 
-//28:00 ot klipa
