@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    public void checkApple() {
+    public void appleCheck() {
         if (x[0] == appleX && y[0] == appleY) {
             bodyParts++;
             applesEaten++;
@@ -101,7 +101,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    public void checkCollisions() {
+    public void collisionsCheck() {
         //checks if head collides with body
         for (int i = bodyParts; 0 < i; i--) {
             if (x[0] == x[i] && y[0] == y[i]) {
@@ -160,13 +160,25 @@ public class GamePanel extends JPanel implements ActionListener {
     public void actionPerformed(final ActionEvent e) {
         if (running) {
             move();
-            checkApple();
-            checkCollisions();
+            appleCheck();
+            collisionsCheck();
 
         }
         repaint();
     }
 
+    private void gameReset() {
+        direction = 'R';
+        applesEaten = 0;
+        bodyParts = 6;
+        running = false;
+
+        for (int i = bodyParts; 0 < i; i--) {
+            x[i] = 6666;
+            y[i] = 6666;
+        }
+        startGame();
+    }
     public class MyKeyAdapter extends KeyAdapter {
 
         @Override
@@ -195,7 +207,6 @@ public class GamePanel extends JPanel implements ActionListener {
                     }
                     break;
                 case KeyEvent.VK_ENTER:
-                    //                        System.out.println("Enter pressed");
                     if (!running) {
                         gameReset();
                     }
@@ -204,18 +215,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    private void gameReset() {
-        direction = 'R';
-        applesEaten = 0;
-        bodyParts = 6;
-        running = false;
 
-        for (int i = bodyParts; 0 < i; i--) {
-            x[i] = 6666;
-            y[i] = 6666;
-        }
-        startGame();
-    }
 }
 
 
